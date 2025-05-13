@@ -681,18 +681,7 @@ async function run() {
       }
     });
 
-    // GET /reviews - returns all reviews
-    app.get('/reviewSection', async (req, res) => {
-      const reviews = await reviewSectionCollection.find().sort({ createdAt: -1 }).toArray();
-      res.send(reviews);
-    });
-
-    // POST /reviews - saves a new review
-    app.post('/reviewSection', async (req, res) => {
-      const review = req.body;
-      const result = await reviewSectionCollection.insertOne(review);
-      res.send(result);
-    });
+    
 
 
 
