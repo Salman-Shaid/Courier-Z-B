@@ -639,8 +639,8 @@ async function run() {
       try {
         // Find the parcel by ID and update it with the new data
         const result = await parcelCollection.updateOne(
-          { _id: new ObjectId(id) },  // Ensure the ID is valid (if you're using MongoDB)
-          { $set: updatedParcelData }  // Set the updated data
+          { _id: new ObjectId(id) },  
+          { $set: updatedParcelData } 
         );
 
         if (result.modifiedCount > 0) {
@@ -734,8 +734,8 @@ async function run() {
         }
 
         // Calculate the new average rating
-        const totalReviews = deliveryMan.totalReviews || 0; // Default to 0 if not present
-        const currentRating = deliveryMan.averageRating || 0; // Default to 0 if not present
+        const totalReviews = deliveryMan.totalReviews || 0; 
+        const currentRating = deliveryMan.averageRating || 0; 
         const newAverageRating =
           (currentRating * totalReviews + rating) / (totalReviews + 1);
 
@@ -798,7 +798,7 @@ async function run() {
           {
             $group: {
               _id: null,
-              totalAmount: { $sum: "$amount" }  // Assuming 'amount' field stores payment value
+              totalAmount: { $sum: "$amount" }  
             }
           }
         ]).toArray();
@@ -810,7 +810,7 @@ async function run() {
           totalUsers,
           totalReviews,
           totalDelivery,
-          totalPayment,  // New field for total payment amount
+          totalPayment,  
         });
       } catch (error) {
         console.error("Error fetching admin statistics:", error);
