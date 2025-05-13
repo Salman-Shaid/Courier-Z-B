@@ -673,7 +673,7 @@ async function run() {
       }
 
       try {
-        const result = await reviewCollection.find({ deliveryManEmail: email }).toArray(); // Filter reviews by deliveryManEmail
+        const result = await reviewCollection.find({ deliveryManEmail: email }).toArray();
         res.send(result);
       } catch (error) {
         console.error(error);
