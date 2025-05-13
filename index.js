@@ -16,8 +16,6 @@ const corsOptions = {
   optionSuccessStatus: 200,
 }
 app.use(cors(corsOptions))
-
-
 app.use(express.json())
 app.use(cookieParser())
 app.use(morgan('dev'))
@@ -38,7 +36,7 @@ const verifyToken = async (req, res, next) => {
   })
 }
 
-
+// mongoDB uri
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.csovo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 
@@ -53,6 +51,7 @@ const client = new MongoClient(uri, {
 async function run() {
 
   try {
+    // database collection 
     const db = client.db('courierDB')
     const usersCollection = db.collection('users')
     const parcelCollection = db.collection('parcels')
@@ -89,7 +88,7 @@ async function run() {
       next()
     }
 
-    // Payment 
+    // Payment system 
     app.post('/api/payments/create-payment-intent', async (req, res) => {
       try {
         const { amount, currency } = req.body;
@@ -219,7 +218,7 @@ async function run() {
           .status(400)
           .send('you have already requested, wait for some time.')
 
-          // updated docs
+      // updated docs
       const updateDoc = {
         $set: {
           status: 'requested',
@@ -256,7 +255,7 @@ async function run() {
 
         // If the role is deliveryMan, generate a unique deliveryManId and update the document
         if (role === 'deliveryMan') {
-          const deliveryManID = `${Date.now()}`; 
+          const deliveryManID = `${Date.now()}`;
           updateDoc = {
             $set: { role, status: 'verified', deliveryManID },
           };
@@ -640,8 +639,8 @@ async function run() {
       try {
         // Find the parcel by ID and update it with the new data
         const result = await parcelCollection.updateOne(
-          { _id: new ObjectId(id) },  
-          { $set: updatedParcelData } 
+          { _id: new ObjectId(id) },
+          { $set: updatedParcelData }
         );
 
         if (result.modifiedCount > 0) {
@@ -735,8 +734,8 @@ async function run() {
         }
 
         // Calculate the new average rating
-        const totalReviews = deliveryMan.totalReviews || 0; 
-        const currentRating = deliveryMan.averageRating || 0; 
+        const totalReviews = deliveryMan.totalReviews || 0;
+        const currentRating = deliveryMan.averageRating || 0;
         const newAverageRating =
           (currentRating * totalReviews + rating) / (totalReviews + 1);
 
@@ -799,7 +798,7 @@ async function run() {
           {
             $group: {
               _id: null,
-              totalAmount: { $sum: "$amount" }  
+              totalAmount: { $sum: "$amount" }
             }
           }
         ]).toArray();
@@ -811,7 +810,7 @@ async function run() {
           totalUsers,
           totalReviews,
           totalDelivery,
-          totalPayment,  
+          totalPayment,
         });
       } catch (error) {
         console.error("Error fetching admin statistics:", error);
