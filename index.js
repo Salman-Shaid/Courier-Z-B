@@ -106,6 +106,7 @@ async function run() {
       }
     });
 
+    // Payment save in the database
     app.post('/api/payments/save-payment', async (req, res) => {
       const { parcelId, transactionId, amount, status } = req.body;
 
@@ -218,7 +219,7 @@ async function run() {
           .status(400)
           .send('you have already requested, wait for some time.')
 
-
+          // updated docs
       const updateDoc = {
         $set: {
           status: 'requested',
@@ -255,7 +256,7 @@ async function run() {
 
         // If the role is deliveryMan, generate a unique deliveryManId and update the document
         if (role === 'deliveryMan') {
-          const deliveryManID = `${Date.now()}`; // Or any custom logic to generate unique deliveryManId
+          const deliveryManID = `${Date.now()}`; 
           updateDoc = {
             $set: { role, status: 'verified', deliveryManID },
           };
@@ -276,7 +277,7 @@ async function run() {
       }
     });
 
-
+    // get the user
     app.get('/users', async (req, res) => {
       const result = await usersCollection.find().toArray()
       res.send(result)
